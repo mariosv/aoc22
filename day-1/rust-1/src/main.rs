@@ -18,34 +18,39 @@ where P: AsRef<Path>, {
     Ok(io::BufReader::new(file).lines())
 }
 
+fn parse_input(filename: &String) -> impl Iterator<Item = String> {
+    let lines = read_lines(&filename)
+        .unwrap_or_else(|e| panic!("Error while reading input: {}", e))
+        .map(|x| { match x {
+            Ok(s) => s,
+            Err(e) => panic!("Error while parsing codes: {}", e)
+        }
+    });
+    lines
+}
+
 /// Parses the contents of 'filename', calculates the total calories per unit
 /// and sums the 'n' higher values.
 /// Uses a heap data structure to store the n maximum values.
 fn parse_and_find_max_n_sum(filename: &String, n: usize) -> i32 {
     let mut max = BinaryHeap::new();
-    if let Ok(lines) = read_lines(&filename) {
-        let mut s: i32 = 0;
-        for line in lines {
-            if let Ok(ip) = line {
-                if ip.is_empty() {
-                    if max.len() < n {
-                        max.push(-s);
-                    } else {
-                        if let Some(current_min) = max.peek() {
-                            if s > *current_min {
-                                max.push(-s);
-                                max.pop();
-                            }
-                        }
-                    }
-                    s = 0;
-                } else {
-                    s += ip.parse::<i32>().unwrap();
+    let mut lines = parse_input(&filename).peekable();
+    while lines.peek().is_some() {
+        let calories : i32 = lines
+                       .by_ref()
+                       .take_while(|s| !s.is_empty())
+                       .map(|s| s.parse::<i32>().unwrap())
+                       .sum();
+        if max.len() < n {
+            max.push(calories);
+        } else {
+            if let Some(current_min) = max.peek() {
+                if calories > *current_min {
+                    max.push(-calories);
+                    max.pop();
                 }
             }
         }
-    } else {
-        panic!("Error while reading file: {}", &filename);
     }
     -max.iter().sum::<i32>()
 }

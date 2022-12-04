@@ -3,6 +3,8 @@ use std::fs::File;
 use std::io::{self, BufRead};
 use std::process;
 
+type Range = (u32, u32);
+
 fn parse_args() -> String {
     let mut args = env::args();
     if args.len() != 2 {
@@ -22,14 +24,13 @@ fn create_reader(filename: &String) -> impl Iterator<Item = String> {
         .map(|l| l.unwrap())
 }
 
-fn parse_range(s: &str) -> (u32, u32) {
+fn parse_range(s: &str) -> Range {
     let v: Vec<u32> = s.split('-')
      .map(|x| x.parse::<u32>().unwrap())
      .collect();
     ((&v)[0], (&v)[1])
 }
 
-type Range = (u32, u32);
 
 fn parse_line(line: String) -> (Range, Range) {
     let t: Vec<_> = line.split(',').map(parse_range).collect();

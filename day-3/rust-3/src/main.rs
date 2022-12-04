@@ -72,5 +72,5 @@ fn problem_2(filename: &String) -> u32 {
 fn main() {
     let filename = parse_args();
     println!("Day 3, problem 1: {}", problem_1(&filename));
-    println!("Day 3, problem 1: {}", problem_2(&filename));
+    println!("Day 3, problem 2: {}", problem_2(&filename));
 }

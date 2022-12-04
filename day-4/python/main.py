@@ -2,8 +2,6 @@ import sys
 
 
 def ranges_overlap(a, b):
-    ar = range(a[0], a[1] + 1)
-    br = range(b[0], b[1] + 1)
     if a[0] > b[1] or b[0] > a[1]:
         return False
     return True

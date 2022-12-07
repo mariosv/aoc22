@@ -9,7 +9,7 @@ fn parse_args() -> String {
         eprintln!("Invalid arguments: I need the input file and nothing else");
         process::exit(1);
     }
-    args.nth(1).expect("Already checked")
+    args.nth(1).unwrap()
 }
 
 /// nlogn implementation

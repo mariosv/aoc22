@@ -9,7 +9,7 @@ fn parse_args() -> String {
     if args.len() != 2 {
         panic!("I need the input file and nothing else");
     }
-    args.nth(1).expect("Already checked")
+    args.nth(1).unwrap()
 }
 
 fn score(c: char) -> u32 {

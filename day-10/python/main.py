@@ -82,10 +82,9 @@ def problem_2(data):
 def main():
     filename = parse_args()
     data = parse_input(filename)
-    print("Day X, problem 1: ", problem_1(data))
-    print("Day X, problem 2: ")
+    print("Day 10, problem 1: ", problem_1(data))
+    print("Day 10, problem 2: ")
     problem_2(data)
-
 
 
 if __name__ == '__main__':
